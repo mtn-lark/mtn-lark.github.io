@@ -1,0 +1,105 @@
+/* Color palette: https://coolors.co/e9edc9-397367-669fa5-42858c-864a96-e4572e */
+
+body {
+  background-color: #e9edc9;
+  margin: 20px;
+}
+
+main {
+  margin: 10px;
+}
+
+h1,
+h2,
+h3 {
+  color: #397367;
+  font-family: "Chewy", "Comic Sans MS", "Comic Sans", cursive;
+  text-transform: uppercase;
+}
+
+p {
+  font-family: "Lato", "Consolas", sans-serif;
+  font-size: large;
+}
+
+h1 {
+  font-size: 5vw;
+  text-align: center;
+  margin: 0px;
+}
+
+h2 {
+  font-size: 3vw;
+  text-align: center;
+}
+
+h3 {
+  font-size: x-large;
+}
+
+img {
+  border-radius: 25px;
+  border-style: dashed;
+  border-color: #397367;
+  border-width: 5px;
+}
+
+.large-image {
+  width: 70%;
+  height: auto;
+  max-width: 700px;
+}
+
+/* TODO: Understand this better*/
+.row {
+  display: flex;
+  flex-direction: row;
+  /* flex-wrap: wrap; */
+  align-items: center;
+  justify-content: center;
+
+  /* max-width: 1000px; */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.column {
+  padding-left: 20px;
+  max-width: 500px;
+}
+
+nav {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 10%;
+}
+
+footer > p {
+  font-size: medium;
+  text-align: center;
+}
+
+/* Links */
+nav a {
+  text-decoration: none;
+}
+
+a:visited {
+  color: #864a96;
+}
+
+a:link,
+nav a:visited {
+  color: #42858c;
+}
+
+a:hover,
+nav a:hover {
+  color: #7daea4;
+}
+
+a:active,
+nav a:active {
+  color: #e4572e;
+}
