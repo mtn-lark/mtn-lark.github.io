@@ -1,18 +1,21 @@
-/* Color palette: https://coolors.co/e9edc9-397367-669fa5-42858c-864a96-e4572e */
+/* Color palette: */
+/* https://coolors.co/fefae0-dda15e-606c38 */
 
+/* General Styling */
 body {
-  background-color: #e9edc9;
+  background-color: #fefae0;
   margin: 20px;
 }
 
 main {
   margin: 10px;
+  max-width: 1000px;
 }
 
 h1,
 h2,
-h3 {
-  color: #397367;
+nav li {
+  color: #606c38;
   font-family: "Chewy", "Comic Sans MS", "Comic Sans", cursive;
   text-transform: uppercase;
 }
@@ -23,83 +26,109 @@ p {
 }
 
 h1 {
-  font-size: 5vw;
-  text-align: center;
+  font-size: 76px;
   margin: 0px;
 }
 
 h2 {
-  font-size: 3vw;
-  text-align: center;
-}
-
-h3 {
   font-size: x-large;
 }
 
 img {
   border-radius: 25px;
   border-style: dashed;
-  border-color: #397367;
+  border-color: #606c38;
   border-width: 5px;
-}
-
-.large-image {
-  width: 70%;
   height: auto;
-  max-width: 700px;
 }
 
-/* TODO: Understand this better*/
-.row {
-  display: flex;
-  flex-direction: row;
-  /* flex-wrap: wrap; */
-  align-items: center;
-  justify-content: center;
-
-  /* max-width: 1000px; */
+/* Centered content */
+main,
+.flex-row,
+nav ul {
   margin-left: auto;
   margin-right: auto;
 }
 
-.column {
-  padding-left: 20px;
-  max-width: 500px;
-}
-
-nav {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  gap: 10%;
-}
-
-footer > p {
-  font-size: medium;
+/* Centered text */
+nav li,
+footer,
+h1 {
   text-align: center;
 }
 
-/* Links */
-nav a {
-  text-decoration: none;
+/* Flex content */
+.flex-row,
+nav ul {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
 }
+
+.flex-row {
+  flex-wrap: wrap;
+  align-items: center;
+
+  gap: 50px;
+}
+
+.flex-row img,
+.flex-row aside {
+  min-width: 300px;
+  width: 50px;
+  flex-grow: 2;
+}
+
+.flex-row:nth-child(even) img {
+  border-color: #dda15e;
+}
+.flex-row:nth-child(even) {
+  flex-wrap: wrap-reverse;
+}
+
+/* Nav styling */
+nav ul {
+  width: 400px;
+  background-color: #dda15e;
+  border-radius: 10px;
+  padding: 30px;
+}
+
+nav li {
+  display: inline;
+  list-style-type: none;
+  font-size: 36px;
+}
+
+/* Footer */
+footer > p {
+  font-size: medium;
+}
+
+/* Links */
 
 a:visited {
   color: #864a96;
 }
 
-a:link,
-nav a:visited {
+a:link {
   color: #42858c;
 }
 
 a:hover,
 nav a:hover {
-  color: #7daea4;
+  color: #dda15e;
+}
+
+nav a,
+nav a:link,
+nav a:visited {
+  color: #fefae0;
+  text-decoration: none;
 }
 
 a:active,
-nav a:active {
-  color: #e4572e;
+nav a:active,
+nav a:hover {
+  color: #bd6d25;
 }

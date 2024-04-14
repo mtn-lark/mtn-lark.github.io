@@ -5,6 +5,13 @@
   Date: April 6st, 2024
   This is the about.html page for my page dedicated to showing of my cat :3
   It includes a link to a home page.
+
+  This website's design is based off of the design by my friend Isabella Zhu, a
+  design student at USC. Screenshots of her design have been included.
+  There are certain elements of her design that I don't know how to do yet that
+  I plan on updating in future projects. She was provided with the wireframe
+  diagram included, and given a brief of the vibe + content I want the website
+  to have.
 -->
 
 <html lang="en">
@@ -13,14 +20,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Daisy Is A Very Good Boy</title>
     <link rel="stylesheet" href="styles.css" />
-    <!-- Custom Fonts -->
-    <!-- TODO: Figure this out properly -->
+    <!-- Custom Fonts From Google -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!--
+      Chewy Font
+      Font source: Google Fonts, Made by Designer: Sideshow
+      [Liscensed under Apache License, Version 2.0
+        (https://www.apache.org/licenses/LICENSE-2.0)]
+    -->
     <link
       href="https://fonts.googleapis.com/css2?family=Chewy&display=swap"
       rel="stylesheet"
     />
+    <!--
+      Lato Font
+      Font source: Google Fonts, Made by Designer: Łukasz Dziedzic
+      [Liscensed under Open Font License (https://openfontlicense.org/)]
+    -->
     <link
       href="https://fonts.googleapis.com/css2?family=Lato&display=swap"
       rel="stylesheet"
@@ -31,23 +49,112 @@
     <header>
       <h1>Daisy Is A Very Good Boy!</h1>
       <nav>
-        <h2>
-          <a href="./index.html">Home</a>
-        </h2>
-        <h2>
-          <a href="#">About</a>
-        </h2>
+        <ul>
+          <li>
+            <a href="./index.html">Home</a>
+          </li>
+          <li>
+            <a href="./about.html">About</a>
+          </li>
+        </ul>
       </nav>
     </header>
 
-    <main></main>
+    <main>
+      <div class="flex-row">
+        <!--
+          Image source: Lark Mendoza (me!)
+        -->
+        <img
+          class="about-image"
+          src="./imgs/daisy-about-1.jpg"
+          alt="A fluffy black cat sitting on a sidewalk."
+        />
+        <aside>
+          <p>
+            I adopted Daisy in February 2023. I was looking to adopt a cat as an
+            emotional support animal, and overheard that a friend of a friend
+            was taking care of a street cat near campus and was looking for
+            someone to adopt it.
+          </p>
+          <p>
+            I got her contact info and quickly started visiting the alley that
+            Daisy lived in. Even as a street cat, he was beautiful and pretty
+            friendly! However, he was very large and did NOT like to be picked
+            up, so it took me visiting the alley 5 times with a carrier (and the
+            help of my friend's mom) to finally take him to a vet and then home.
+            At the vet, Daisy got vaccinations and a microchip. He was so sweet,
+            they couldn't believe I had picked him up off the steet!
+          </p>
+        </aside>
+      </div>
+      <div class="flex-row">
+        <aside>
+          <p>
+            After the vet, I took Daisy home. Even though he was in a totally
+            new environment, he was happy to explore and find new places to
+            hide. At first, he just slept most of the time, occassionally coming
+            out to find more places to explore and sit next to me. It was less
+            than a month before he was sleeping with me at night, trying to sit
+            on my laptop, and running around chasing toys.
+          </p>
+          <p>
+            Unfortunately, after many months or years on the street, Daisy was
+            not in the best shape. Over the next year, Daisy had to endure a
+            weight-loss diet before finally reaching a healthy weight of 13
+            pounds. He had a broken tooth pulled so he wouldn't be in pain.
+            Having never owned a cat before, I had a lot of learning to do, too.
+            I had to learn how to give him medicine and clip his nails, two
+            things he still doesn't like.
+          </p>
+        </aside>
+        <!--
+          Image source: Lark Mendoza (me!)
+        -->
+        <img
+          class="about-image"
+          src="./imgs/daisy-about-2.jpg"
+          alt="A fluffy black cat lying with his belly up, pawing at a small pink ball."
+        />
+      </div>
+      <div class="flex-row">
+        <!--
+          Image source: Lark Mendoza (me!)
+        -->
+        <img
+          src="./imgs/daisy-about-3.jpg"
+          alt="A black cat with a green bowtie."
+        />
+        <aside>
+          <p>
+            Today, Daisy loves to lounge on our dorm couch and chase spring
+            toys. He is as friendly and fluffy as the day I got him. He has
+            learned to love sitting on laps and making biscuits, and to tolerate
+            having his majestic coat brushed. He tries to eat any yarn I use to
+            crochet. He has learned a grand total of 1 trick: standing on his
+            back legs to get a treat! Daisy can still be pretty jumpy -- he
+            hides when someone knocks on our door, and has to take anti-anxiety
+            medicine for car rides to the vet. But overall, he is the perfect
+            cat for me &#58;&#41;
+          </p>
+        </aside>
+      </div>
+    </main>
 
     <footer>
-      <p>This webpage made for CS 132 Creative Project 1.</p>
+      <p>
+        This webpage made for CS 132 Creative Project 1. © Lark Mendoza 2024
+      </p>
       <p>
         Inspired by
         <a href="https://www.buttercupisaverygoodgirl.com/"
           >ButtercupIsAVeryGoodGirl.com</a
+        >.
+      </p>
+      <p>
+        Visual design by
+        <a href="https://www.linkedin.com/in/isabella-zhu-6069bb26a/"
+          >Isabella Zhu</a
         >.
       </p>
     </footer>
