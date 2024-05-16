@@ -7,7 +7,7 @@
     // any module-globals (limit the use of these when possible)
     const CONTAINER = id("dressup-container")
     const IMG_TYPES = ["head", "face", "neck"]
-    let imgIndices = [0, 1, 0]
+    let imgIndices = [0, 0, 0]
 
     window.addEventListener("load", init);
 
