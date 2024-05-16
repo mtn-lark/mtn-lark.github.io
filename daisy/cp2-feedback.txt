@@ -1,0 +1,23 @@
+Please fill out the following and submit with your CP 2 submission
+(added to help us know what to focus on when grading):
+
+1. What have you learned and applied in CP 2 since CP 1?
+    I learned how to select elements using Javascript, and to think systematically
+    about connecting elements to functions.
+
+2. To what extent would you like feedback in CP 2 (e.g. thorough, particular areas of HTML/CSS/JS/UI)?
+    I would like feedback on my JSDoc documentation -- I haven't done it before.
+    I also would appreciate feedback on the general structure of my UI, and if
+    there are more efficient ways to implement the same/similar layout.
+
+3. Anything else you would like the grader to know?
+    IMPORTANT - These are the RELEVANT FILES:
+    - dressup.html
+    - dressup-styles.css
+    - dressup.js
+    The only other major change is that images have been added to imgs/dressup.
+    Everything else is mostly the same from CP1 - the dressup page is the only
+    one with Javascript integration.
+
+    The github link definitely should work, but the website is also public here:
+    https://mtn-lark.github.io/daisy/dressup.html
