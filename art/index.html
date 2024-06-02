@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Scripts -->
+    <script src="utils.js"></script>
+    <script defer src="script.js"></script>
+
+    <!-- Meta Information -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Art You Probably Haven't Seen</title>
+
+    <!-- Style -->
+    <link rel="stylesheet" href="styles.css" />
+
+    <!-- Custom Font From Google -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!--
+      Lato Font
+      Font source: Google Fonts, Made by Designer: Łukasz Dziedzic
+      [Licensed under Open Font License (https://openfontlicense.org/)]
+    -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lato&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body>
+    <header>
+      <div id="banner">
+        <h1>Art You've (Probably!) Never Seen</h1>
+      </div>
+      <p>
+        This website uses the Art Institute of Chicago API to showcase public
+        domain art that is rarely viewed. Press the generate button to see new
+        art! Click the image to learn more about the art.
+      </p>
+      <p>
+        Note: this website tends to be slow to generate art. This is because I
+        haven't figured out a way to randomly select a piece of work from a
+        filtered subset of the artworks... instead, I am generating a random art
+        ID and then checking if it fits the criteria to display on this website.
+      </p>
+    </header>
+
+    <main>
+      <div id="center-button">
+        <!-- I couldn't find a good way to center the button otherwise :( -->
+        <button id="shuffle-button">Generate</button>
+      </div>
+      <div id="art-display">
+        <a href=""><img src="" alt="" /></a>
+        <aside>
+          <h2>Please wait</h2>
+          <h3>Loading...</h3>
+        </aside>
+      </div>
+      <footer></footer>
+    </main>
+
+    <footer></footer>
+  </body>
+</html>
