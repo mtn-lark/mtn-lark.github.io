@@ -429,6 +429,7 @@
     }
 
     function updateCopyright(imgInfo) {
+        let main = qs("main")
         let new_footer = gen("footer")
 
         generateDisplayElement(new_footer, "h3", "License")
@@ -446,7 +447,7 @@
         let footer = qs("main footer")
         footer.remove()
 
-        CONTAINER.appendChild(new_footer)
+        main.appendChild(new_footer)
     }
 
     function processData(artJson, imgJson) {
