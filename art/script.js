@@ -50,8 +50,8 @@
      * One-time function to URL-ify the desired API fields, stored in this
      * function as constants.
      *
-     * @param {String} type - either "art" or "img"
-     * @returns - string to attach to art API request
+     * @param {string} type - either "art" or "img"
+     * @returns {string} - string to attach to art API request
      */
     function getFieldsString(type) {
         let ART_FIELDS = [
@@ -144,10 +144,10 @@
     /**
      * Gets the image URL of the artwork for display.
      *
-     * @param {String} iiifBaseUrl - the base IIIF URL of the artwork
-     * @param {String} iiifPath - the path to append associated with the artwork
-     * @param {Number} width - the width of the artwork, in px
-     * @returns {String} - the URL for displaying the image
+     * @param {string} iiifBaseUrl - the base IIIF URL of the artwork
+     * @param {string} iiifPath - the path to append associated with the artwork
+     * @param {number} width - the width of the artwork, in px
+     * @returns {string} - the URL for displaying the image
      */
     function getImageURL(iiifBaseUrl, iiifPath, width) {
         /**
@@ -166,11 +166,25 @@
         return url
     }
 
-    function getImageId(artData) {
-        return artData.data.image_id
+    /**
+     * Gets the image_id associated with the provided artwork.
+     *
+     * @param {JSON} artJson - JSON returned by artworks fetch request
+     * @returns {string} - Associated image ID
+     */
+    function getImageId(artJson) {
+        return artJson.data.image_id
     }
 
-
+    /**
+     * Fetches the JSON info associated with the URL provided, or throws an
+     * error.
+     *
+     * @param {string} artUrl
+     * @throws Will throw an error if the fetch has bad status, or the JSON
+     *      doesn't have the necessary information
+     * @returns {JSON} - JSON associated with artwork fetched
+     */
     async function requestArtAsync(artUrl) {
         /**
          * This is a helper function within a try/catch block, so we won't worry
@@ -190,7 +204,15 @@
         return (artData)
     }
 
-    async function requestImgAsync(artData) {
+    /**
+     * Fetches the JSON info associated with the artwork provided, or throws an
+     * error.
+     *
+     * @param {JSON} artJson - JSON returned by artworks fetch request
+     * @throws Will throw an error if the fetch has bad status
+     * @returns {JSON} - JSON associated with artwork image information fetched
+     */
+    async function requestImgAsync(artJson) {
         /**
          * This is a helper function within a try/catch block, so we won't worry
          * about catching errors here.
@@ -198,7 +220,7 @@
 
         // Get img url
         const IMG_ENDPOINT = "images/"
-        const IMG_ID = getImageId(artData)
+        const IMG_ID = getImageId(artJson)
         const IMG_URL = API_BASE_URL + IMG_ENDPOINT + IMG_ID + img_field_string
 
         // Fetch
@@ -264,12 +286,12 @@
     /**
      * Enables or disables the shuffle button.
      *
-     * @param {Boolean} enable
+     * @param {boolean} enable
      */
     function enableShuffleButton(enable) {
         /**
          * I know toggle would usually be used here, but I found if I was fast
-         * enough, I could lock myself out of using the button, so this
+         * enough, I could lock myself out of using the button, so works better.
          */
 
         shuffleButton.disabled = !enable
@@ -278,9 +300,14 @@
         } else {
             shuffleButton.classList.add("disabled")
         }
-
     }
 
+    /**
+     * Replaces the image with the updated artwork image.
+     *
+     * @param {JSON} artConfig - .config returned with artwork JSON
+     * @param {JSON} imgData - .data returned with images JSON
+     */
     function updateImg(artConfig, imgData) {
         // Replace image + link art
         let iiifBaseUrl = artConfig.iiif_url
@@ -293,21 +320,19 @@
     }
 
     /**
-     * Generates a text element in aside with textContent equal to data if
-     * data exists, and "Unknown <name>" otherwise.
+     * Generates a text element in parent with textContent equal to data if
+     * data exists, and "Unknown <name>" or alternate string otherwise.
      *
-     * @param {Element} parent - element to parent items to
-     * @param {String} elemStr - string describing the type of element to be
+     * @param {HTMLElement} parent - element to parent items to
+     * @param {string} elemStr - string describing the type of element to be
      *      created, as in createElement
-     * @param {String} [data] - string to try to use as text
-     * @param {String} [alternate] - alternate descriptor to use if data is
+     * @param {string} [data] - string to try to use as text
+     * @param {string} [alternate] - alternate descriptor to use if data is
      *      null; name of attribute if useUnknown=true, otherwise a complete
      *      replacement string. Can be omitted if data is guaranteed.
-     * @param {Boolean} [useUnknown=true] useUnknown - indicates whether to use
+     * @param {boolean} [useUnknown=true] useUnknown - indicates whether to use
      *      default "Unknown <alternate>" string or to entirely replace
-     * -
-     *  use default unknown string
-     * @returns
+     * @returns {HTMLElement} - generated HTML element
      */
     function generateDisplayElement(parent, elemStr, data, alternate, useUnknown = true) {
         let elem = gen(elemStr)
@@ -346,6 +371,14 @@
         return parent
     }
 
+    /**
+     * Generates the aside and its contents associated with the provided artwork
+     * information.
+     *
+     * @param {JSON} artData - .data returned with artwork JSON
+     * @param {JSON} imgData - .data returned with images JSON
+     * @returns {HTMLElement} - generated aside element
+     */
     function generateAside(artData, imgData) {
         // Create new aside from data
         let new_aside = gen("aside")
@@ -372,6 +405,12 @@
         return new_aside
     }
 
+    /**
+     * Updates colors of multiple elements based on the dominant color of the
+     * artwork provided.
+     *
+     * @param {JSON} artData - .data returned with artwork JSON
+     */
     function updateColors(artData) {
         // Can't find a better way to set the color, since classes aren't going
         // to work here
@@ -393,6 +432,12 @@
         }
     }
 
+    /**
+     * Updates the copyright information associated with the image fetch in the
+     * footer of the main body.
+     *
+     * @param {JSON} imgInfo - .info returned with images JSON
+     */
     function updateCopyright(imgInfo) {
         let main = qs("main")
         let new_footer = gen("footer")
@@ -416,6 +461,8 @@
     }
 
     /**
+     * Processes the artwork and image JSONs in order to update the website
+     * from their contents.
      *
      * @param {JSON} artJson - JSON containing info from the artworks endpoint
      * @param {JSON} imgJson - JSON containing info from the image endpoint
@@ -426,7 +473,7 @@
         let artData = artJson.data
         let imgData = imgJson.data
 
-        // Replace image + link art
+        // Replace image
         updateImg(artJson.config, imgData)
 
         // Link art
@@ -449,6 +496,11 @@
         updateCopyright(imgJson.info)
     }
 
+    /**
+     * Updates the page to reflect when the fetch fails too many times.
+     *
+     * @param {Error} err - error thrown while attempting to fetch artworks
+     */
     function processError(err) {
         const CONTAINER_SELECTOR = "#art-display"
         let container = qs(CONTAINER_SELECTOR)
@@ -456,8 +508,12 @@
         // Create new aside from data
         let new_aside = gen("aside")
 
-        generateDisplayElement(new_aside, "h2", "Please try again later.")
-        generateDisplayElement(new_aside, "h3", "Looks like something went wrong repeatedly.")
+        let header = gen("header")
+
+        generateDisplayElement(header, "h2", "Please try again :(")
+        generateDisplayElement(header, "h3", "Looks like something went wrong repeatedly.")
+
+        new_aside.appendChild(header)
 
         generateDisplayElement(new_aside, "h4", "Most recent error:")
         generateDisplayElement(new_aside, "p", err.message)
