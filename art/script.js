@@ -15,6 +15,7 @@
     let imgFieldString = ""
 
     const CONTAINER_SELECTOR = "#art-display"
+    const IMG_LINK_SELECTOR = "#img-link"
     let container = null
 
     let numFails = 0
@@ -115,7 +116,7 @@
          * We use ceiling and omit the min variable, since our min is just 1.
          */
         const num = Math.ceil(Math.random() * (ID_MAX))
-        return toString(num)
+        return (num.toString())
     }
 
     //-----------------------------//
@@ -192,6 +193,8 @@
          * about catching errors here.
          *
          * Written with help of Lecture 13 APOD example.
+         *
+         * https://rapidapi.com/guides/request-headers-fetch
          */
 
         let artResp = await fetch(artUrl, {
@@ -323,7 +326,7 @@
 
         let img = qs(CONTAINER_SELECTOR + " img")
         img.src = url
-        img.altText = imgData.alt_text
+        img.alt = imgData.alt_text
     }
 
     /**
@@ -471,6 +474,22 @@
     }
 
     /**
+     * Generates a link and image in the container
+     */
+    function generateLinkAndImage() {
+        /**
+         * Having an empty link and image is not great HTML style, so we will
+         * instead generate the elements here for use shortly.
+         */
+
+        let link = gen("a")
+        let img = gen("img")
+
+        link.appendChild(img)
+        container.appendChild(link)
+    }
+
+    /**
      * Processes the artwork and image JSONs in order to update the website
      * from their contents.
      *
@@ -483,11 +502,16 @@
         let artData = artJson.data
         let imgData = imgJson.data
 
+        let link = qs(CONTAINER_SELECTOR + " > a")
+        if (!link) {
+            generateLinkAndImage()
+            link = qs(CONTAINER_SELECTOR + " > a")
+        }
+
         // Replace image
         updateImg(artJson.config, imgData)
 
         // Link art
-        let link = qs(CONTAINER_SELECTOR + " a")
         link.href = WEB_BASE_URL + artData.id
 
         // Generate aside
