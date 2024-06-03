@@ -6,36 +6,34 @@
 
 "use strict";
 (function () {
-    const USER_AGENT = "mtnLark (lark@caltech.edu)"
     // Module-globals
-    const API_BASE_URL = "https://api.artic.edu/api/v1/";
-    const ART_ENDPOINT = "artworks/"
-    const ART_FIELD_STRING = getFieldsString("art")
+    const USER_AGENT = "mtnLark (lark@caltech.edu)"
+    const API_BASE_URL = "https://api.artic.edu/api/v1/"
 
-    const IMG_ENDPOINT = "images/"
-    const IMG_FIELD_STRING = getFieldsString("img")
-
-    const WEB_BASE_URL = "https://www.artic.edu/artworks/"
-    // Maximum ID as of June 1, 2024 -- not sure how to update this dynamically :(
-    const ID_MAX = 273752
+    // We store these globally to avoid re-running the function many times
+    let art_field_string = ""
+    let img_field_string = ""
 
     const CONTAINER_SELECTOR = "#art-display"
-    const CONTAINER = qs(CONTAINER_SELECTOR)
+    let container = null
 
     let numFails = 0
     let shuffleButton = null
 
-    window.addEventListener("load", init);
+    window.addEventListener("load", init)
 
     //----------------------------------//
     //----- INITIALIZING FUNCTIONS -----//
     //----------------------------------//
     /** Initializes JS functionality for the page. */
     function init() {
-        console.log("Hello world!")
+        art_field_string = getFieldsString("art")
+        img_field_string = getFieldsString("img")
 
-        shuffleButton = qs("#shuffle-button");
-        shuffleButton.addEventListener("click", getNewArt);
+        container = qs(CONTAINER_SELECTOR)
+
+        shuffleButton = qs("#shuffle-button")
+        shuffleButton.addEventListener("click", getNewArt)
 
         getNewArt()
     }
@@ -46,49 +44,47 @@
     function getNewArt() {
         enableShuffleButton(false)
         requestAsync(getRandomId())
-
-        // let artData = requestArtAsync(getRandomId())
-        // let imgData = requestImgAsync(getRandomId())
-
-        // processData(artData, imgData)
     }
 
     /**
-     * One-time function to URL-ify the desired API fields.
+     * One-time function to URL-ify the desired API fields, stored in this
+     * function as constants.
      *
      * @param {String} type - either "art" or "img"
      * @returns - string to attach to art API request
      */
     function getFieldsString(type) {
+        let ART_FIELDS = [
+            // Link
+            "id",
+            // Image
+            "image_id",
+            // Info
+            "title",
+            "artist_display",
+            "medium_display",
+            "place_of_origin",
+            "style_title",
+            // Styling
+            "color",
+            "has_not_been_viewed_much",
+            "is_public_domain"
+        ]
+        let IMG_FIELDS = [
+            // Alt-Text
+            "alt-text",
+            // Copyright
+            "credit-line",
+            // URL
+            "iiif_url",
+            "width"
+        ]
+
         let fields = []
         if (type == "art") {
-            fields = [
-                // Link
-                "id",
-                // Image
-                "image_id",
-                // Info
-                "title",
-                "artist_display",
-                "medium_display",
-                "place_of_origin",
-                "style_title",
-                // Styling
-                "color",
-                "has_not_been_viewed_much",
-                "is_public_domain"
-            ]
+            fields = ART_FIELDS
         } else if (type = "img") {
-            fields = [
-                // Alt-Text
-                "alt-text",
-                // Copyright
-                "credit-line",
-                // URL
-                "iiif_url",
-                "width"
-            ]
-
+            fields = IMG_FIELDS
         } else {
             throw Error("ValueError: type must be 'art' or 'img'.")
         }
@@ -108,12 +104,18 @@
      */
     function getRandomId() {
         /**
+         * Maximum ID as of June 1, 2024
+         * not sure how to update this dynamically :(
+         */
+        const ID_MAX = 273752
+
+        /**
          * Inspired by this:
          * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math#returning_a_random_integer_between_two_bounds
          * We use ceiling and omit the min variable, since our min is just 1.
          */
-        const num = Math.ceil(Math.random() * (ID_MAX));
-        return String(num);
+        const num = Math.ceil(Math.random() * (ID_MAX))
+        return String(num)
     }
 
     //-----------------------------//
@@ -121,24 +123,10 @@
     //-----------------------------//
 
     /**
-     * Checks that the response status is valid.
-     *
-     * @param {Response} response
-     * @returns
-     */
-    function checkStatus(response) {
-        if (response.status >= 400) {
-            throw Error("StatusError: " + response.status + " " + response.statusText)
-        } else {
-            return response
-        }
-    }
-
-    /**
      * Checks that artwork is rarely viewed, has an associated image, and is in
      * public domain.
      *
-     * @param {JSON} articJson - JSON returned by art  fetch request
+     * @param {JSON} articJson - JSON returned by artworks fetch request
      */
     function checkArtConditions(articJson) {
         let data = articJson.data
@@ -147,8 +135,7 @@
             throw Error("ValidationError: Viewed too often.")
         } if (!data.image_id) {
             throw Error("ValidationError: No associated image.")
-        }
-        if (!data.is_public_domain) {
+        } if (!data.is_public_domain) {
             // recommended by ArtIC
             throw Error("ValidationError: Not public domain.")
         }
@@ -210,8 +197,9 @@
          */
 
         // Get img url
+        const IMG_ENDPOINT = "images/"
         const IMG_ID = getImageId(artData)
-        const IMG_URL = API_BASE_URL + IMG_ENDPOINT + IMG_ID + IMG_FIELD_STRING
+        const IMG_URL = API_BASE_URL + IMG_ENDPOINT + IMG_ID + img_field_string
 
         // Fetch
         let imgResp = await fetch(IMG_URL, {
@@ -233,9 +221,15 @@
      */
     async function requestAsync(id) {
         // Artworks endpoint
-        const ART_URL = API_BASE_URL + ART_ENDPOINT + id + ART_FIELD_STRING
-        // console.log(url);
+        const ART_ENDPOINT = "artworks/"
+        const ART_URL = API_BASE_URL + ART_ENDPOINT + id + art_field_string
 
+        /**
+         * Loosely based on Lecture 13
+         * Since we don't want to try the same ID repeatedly, we completely
+         * restart the process and record the number of failures as a global
+         * variable.
+         */
         try {
             // First, get artwork information
             let artData = await requestArtAsync(ART_URL)
@@ -250,15 +244,13 @@
 
         } catch (err) {
             numFails += 1
-            console.log("Caught an error");
-            console.log(err);
             if (numFails < 10) {
                 // Try up to 10 times to find something better
                 getNewArt()
             } else {
                 // Continuous failure; stop checking
-                processError(err);
-                numFails = 0;
+                processError(err)
+                numFails = 0
                 enableShuffleButton(true)
             }
 
@@ -311,6 +303,7 @@
         let str = ""
         if (data) {
             // Data found!
+
             /**
              * `\n` line breaks are not supported, so we make multiple elements
              * if necessary.
@@ -346,7 +339,6 @@
         let iiifBaseUrl = artConfig.iiif_url
         let iiifPath = imgData.iiif_url
         let url = getImageURL(iiifBaseUrl, iiifPath, imgData.width)
-        console.log(url);
 
         let img = qs(CONTAINER_SELECTOR + " img")
         img.src = url
@@ -418,10 +410,16 @@
         main.appendChild(new_footer)
     }
 
+    /**
+     *
+     * @param {JSON} artJson - JSON containing info from the artworks endpoint
+     * @param {JSON} imgJson - JSON containing info from the image endpoint
+     */
     function processData(artJson, imgJson) {
+        const WEB_BASE_URL = "https://www.artic.edu/artworks/"
+
         let artData = artJson.data
         let imgData = imgJson.data
-        console.log(artData);
 
         // Replace image + link art
         updateImg(artJson.config, imgData)
@@ -437,7 +435,7 @@
         let aside = qs(CONTAINER_SELECTOR + " aside")
         aside.remove()
 
-        CONTAINER.appendChild(new_aside)
+        container.appendChild(new_aside)
 
         // Update colors
         updateColors(artData)
