@@ -11,8 +11,8 @@
     const API_BASE_URL = "https://api.artic.edu/api/v1/"
 
     // We store these globally to avoid re-running the function many times
-    let art_field_string = ""
-    let img_field_string = ""
+    let artFieldString = ""
+    let imgFieldString = ""
 
     const CONTAINER_SELECTOR = "#art-display"
     let container = null
@@ -27,8 +27,8 @@
     //----------------------------------//
     /** Initializes JS functionality for the page. */
     function init() {
-        art_field_string = getFieldsString("art")
-        img_field_string = getFieldsString("img")
+        artFieldString = getFieldsString("art")
+        imgFieldString = getFieldsString("img")
 
         container = qs(CONTAINER_SELECTOR)
 
@@ -83,7 +83,7 @@
         let fields = []
         if (type == "art") {
             fields = ART_FIELDS
-        } else if (type = "img") {
+        } else if (type == "img") {
             fields = IMG_FIELDS
         } else {
             throw Error("ValueError: type must be 'art' or 'img'.")
@@ -115,7 +115,7 @@
          * We use ceiling and omit the min variable, since our min is just 1.
          */
         const num = Math.ceil(Math.random() * (ID_MAX))
-        return String(num)
+        return toString(num)
     }
 
     //-----------------------------//
@@ -136,7 +136,7 @@
         } if (!data.image_id) {
             throw Error("ValidationError: No associated image.")
         } if (!data.is_public_domain) {
-            // recommended by ArtIC
+            // Recommended by ArtIC
             throw Error("ValidationError: Not public domain.")
         }
     }
@@ -154,11 +154,12 @@
          * Per https://api.artic.edu/docs/#iiif-image-api
          * ArtIC recommends sizing with width 843.
          * However, this causes issues if the image is smaller than 843 px wide.
-         * This is the workaround
+         * This is the workaround.
          */
+        const DEFAULT_WIDTH = 843
 
-        let sizeStr = "843,/"
-        if (width < 843) {
+        let sizeStr = `${DEFAULT_WIDTH},/`
+        if (width < DEFAULT_WIDTH) {
             sizeStr = "pct:100/"
         }
         const STRUCTURE = "/full/" + sizeStr + "0/default.jpg"
@@ -225,7 +226,7 @@
         // Get img url
         const IMG_ENDPOINT = "images/"
         const IMG_ID = getImageId(artJson)
-        const IMG_URL = API_BASE_URL + IMG_ENDPOINT + IMG_ID + img_field_string
+        const IMG_URL = API_BASE_URL + IMG_ENDPOINT + IMG_ID + imgFieldString
 
         // Fetch
         let imgResp = await fetch(IMG_URL, {
@@ -248,8 +249,9 @@
     async function requestAsync(id) {
         // Artworks endpoint
         const ART_ENDPOINT = "artworks/"
-        const ART_URL = API_BASE_URL + ART_ENDPOINT + id + art_field_string
+        const ART_URL = API_BASE_URL + ART_ENDPOINT + id + artFieldString
 
+        const MAX_FAILS = 10
         /**
          * Written with help of Lecture 13 APOD example
          *
@@ -271,8 +273,8 @@
 
         } catch (err) {
             numFails += 1
-            if (numFails < 10) {
-                // Try up to 10 times to find something better
+            if (numFails < MAX_FAILS) {
+                // Try up to MAX_FAILS times to find something better
                 getNewArt()
             } else {
                 // Continuous failure; stop checking
@@ -321,7 +323,7 @@
 
         let img = qs(CONTAINER_SELECTOR + " img")
         img.src = url
-        img.alt_text = imgData.alt_text
+        img.altText = imgData.alt_text
     }
 
     /**
@@ -386,28 +388,28 @@
      */
     function generateAside(artData, imgData) {
         // Create new aside from data
-        let new_aside = gen("aside")
+        let newAside = gen("aside")
 
         let header = gen("header")
 
         generateDisplayElement(header, "h2", artData.title, "Title")
         generateDisplayElement(header, "h3", artData.artist_display, "Artist")
 
-        new_aside.appendChild(header)
+        newAside.appendChild(header)
 
-        generateDisplayElement(new_aside, "h4", "Medium")
-        generateDisplayElement(new_aside, "p", artData.medium_display, "Medium")
+        generateDisplayElement(newAside, "h4", "Medium")
+        generateDisplayElement(newAside, "p", artData.medium_display, "Medium")
 
-        generateDisplayElement(new_aside, "h4", "Place of Origin")
-        generateDisplayElement(new_aside, "p", artData.place_of_origin, "Place of Origin")
+        generateDisplayElement(newAside, "h4", "Place of Origin")
+        generateDisplayElement(newAside, "p", artData.place_of_origin, "Place of Origin")
 
-        generateDisplayElement(new_aside, "h4", "Style")
-        generateDisplayElement(new_aside, "p", artData.style_title, "Style")
+        generateDisplayElement(newAside, "h4", "Style")
+        generateDisplayElement(newAside, "p", artData.style_title, "Style")
 
-        generateDisplayElement(new_aside, "h4", "Image Copyright")
-        generateDisplayElement(new_aside, "p", imgData.credit_line, "No credit information provided", false)
+        generateDisplayElement(newAside, "h4", "Image Copyright")
+        generateDisplayElement(newAside, "p", imgData.credit_line, "No credit information provided", false)
 
-        return new_aside
+        return newAside
     }
 
     /**
@@ -417,8 +419,11 @@
      * @param {JSON} artData - .data returned with artwork JSON
      */
     function updateColors(artData) {
-        // Can't find a better way to set the color, since classes aren't going
-        // to work here
+        /**
+         * This is not the ideal way to change style, but since there are
+         * exponentially many different colors, I don't think classes are going
+         * to work in this case.
+         */
         let color = artData.color
 
         if (color) {
@@ -445,24 +450,24 @@
      */
     function updateCopyright(imgInfo) {
         let main = qs("main")
-        let new_footer = gen("footer")
+        let newFooter = gen("footer")
 
-        generateDisplayElement(new_footer, "h3", "License")
-        generateDisplayElement(new_footer, "p", imgInfo.license_text, "No license information provided.", false)
+        generateDisplayElement(newFooter, "h3", "License")
+        generateDisplayElement(newFooter, "p", imgInfo.license_text, "No license information provided.", false)
         for (let i = 0; i < imgInfo.license_links.length; i++) {
             let p = gen("p")
             let link = gen("a")
             link.href = imgInfo.license_links[i]
             link.textContent = imgInfo.license_links[i]
             p.appendChild(link)
-            new_footer.appendChild(p)
+            newFooter.appendChild(p)
         }
 
         // Remove existing footer and add new one
         let footer = qs("main footer")
         footer.remove()
 
-        main.appendChild(new_footer)
+        main.appendChild(newFooter)
     }
 
     /**
@@ -486,13 +491,13 @@
         link.href = WEB_BASE_URL + artData.id
 
         // Generate aside
-        let new_aside = generateAside(artData, imgData)
+        let newAside = generateAside(artData, imgData)
 
         // Remove existing aside and add new one
         let aside = qs(CONTAINER_SELECTOR + " aside")
         aside.remove()
 
-        container.appendChild(new_aside)
+        container.appendChild(newAside)
 
         // Update colors
         updateColors(artData)
@@ -511,22 +516,22 @@
         let container = qs(CONTAINER_SELECTOR)
 
         // Create new aside from data
-        let new_aside = gen("aside")
+        let newAside = gen("aside")
 
         let header = gen("header")
 
         generateDisplayElement(header, "h2", "Please try again :(")
         generateDisplayElement(header, "h3", "Looks like something went wrong repeatedly.")
 
-        new_aside.appendChild(header)
+        newAside.appendChild(header)
 
-        generateDisplayElement(new_aside, "h4", "Most recent error:")
-        generateDisplayElement(new_aside, "p", err.message)
+        generateDisplayElement(newAside, "h4", "Most recent error:")
+        generateDisplayElement(newAside, "p", err.message)
 
         // Remove existing aside and add new one
         let aside = qs(CONTAINER_SELECTOR + " aside")
         aside.remove()
 
-        container.appendChild(new_aside)
+        container.appendChild(newAside)
     }
 })();
