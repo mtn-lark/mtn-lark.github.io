@@ -189,6 +189,8 @@
         /**
          * This is a helper function within a try/catch block, so we won't worry
          * about catching errors here.
+         *
+         * Written with help of Lecture 13 APOD example.
          */
 
         let artResp = await fetch(artUrl, {
@@ -216,6 +218,8 @@
         /**
          * This is a helper function within a try/catch block, so we won't worry
          * about catching errors here.
+         *
+         * Written with help of Lecture 13 APOD example.
          */
 
         // Get img url
@@ -247,7 +251,8 @@
         const ART_URL = API_BASE_URL + ART_ENDPOINT + id + art_field_string
 
         /**
-         * Loosely based on Lecture 13
+         * Written with help of Lecture 13 APOD example
+         *
          * Since we don't want to try the same ID repeatedly, we completely
          * restart the process and record the number of failures as a global
          * variable.
