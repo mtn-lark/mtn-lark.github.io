@@ -280,6 +280,18 @@
         }
 
     }
+
+    function updateImg(artConfig, imgData) {
+        // Replace image + link art
+        let iiifBaseUrl = artConfig.iiif_url
+        let iiifPath = imgData.iiif_url
+        let url = getImageURL(iiifBaseUrl, iiifPath, imgData.width)
+
+        let img = qs(CONTAINER_SELECTOR + " img")
+        img.src = url
+        img.alt_text = imgData.alt_text
+    }
+
     /**
      * Generates a text element in aside with textContent equal to data if
      * data exists, and "Unknown <name>" otherwise.
@@ -334,23 +346,16 @@
         return parent
     }
 
-    function updateImg(artConfig, imgData) {
-        // Replace image + link art
-        let iiifBaseUrl = artConfig.iiif_url
-        let iiifPath = imgData.iiif_url
-        let url = getImageURL(iiifBaseUrl, iiifPath, imgData.width)
-
-        let img = qs(CONTAINER_SELECTOR + " img")
-        img.src = url
-        img.alt_text = imgData.alt_text
-    }
-
     function generateAside(artData, imgData) {
         // Create new aside from data
         let new_aside = gen("aside")
 
-        generateDisplayElement(new_aside, "h2", artData.title, "Title")
-        generateDisplayElement(new_aside, "h3", artData.artist_display, "Artist")
+        let header = gen("header")
+
+        generateDisplayElement(header, "h2", artData.title, "Title")
+        generateDisplayElement(header, "h3", artData.artist_display, "Artist")
+
+        new_aside.appendChild(header)
 
         generateDisplayElement(new_aside, "h4", "Medium")
         generateDisplayElement(new_aside, "p", artData.medium_display, "Medium")
