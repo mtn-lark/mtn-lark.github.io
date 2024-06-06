@@ -15,10 +15,8 @@
     let imgFieldString = ""
 
     const CONTAINER_SELECTOR = "#art-display"
-    const IMG_LINK_SELECTOR = "#img-link"
     let container = null
 
-    let numFails = 0
     let shuffleButton = null
 
     window.addEventListener("load", init)
