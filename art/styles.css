@@ -133,6 +133,7 @@ button {
 /* Aside */
 aside {
   width: 35%;
+  min-width: 300px;
   /* width | style */
   border: 5px dashed;
   padding: 10px;

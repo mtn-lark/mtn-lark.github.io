@@ -44,7 +44,7 @@
      */
     function getNewArt() {
         enableShuffleButton(false)
-        requestAsync(getRandomId())
+        requestAsync()
     }
 
     /**
@@ -98,49 +98,9 @@
         return str
     }
 
-    /**
-     * Generates a random ID to index art with between 1 and ID_MAX
-     *
-     * @returns {string} - A random art ID
-     */
-    function getRandomId() {
-        /**
-         * Maximum ID as of June 1, 2024
-         * not sure how to update this dynamically :(
-         */
-        const ID_MAX = 273752
-
-        /**
-         * Inspired by this:
-         * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math#returning_a_random_integer_between_two_bounds
-         * We use ceiling and omit the min variable, since our min is just 1.
-         */
-        const num = Math.ceil(Math.random() * (ID_MAX))
-        return (num.toString())
-    }
-
     //-----------------------------//
     //----- NETWORK FUNCTIONS -----//
     //-----------------------------//
-
-    /**
-     * Checks that artwork is rarely viewed, has an associated image, and is in
-     * public domain.
-     *
-     * @param {JSON} articJson - JSON returned by artworks fetch request
-     */
-    function checkArtConditions(articJson) {
-        let data = articJson.data
-
-        if (!data.has_not_been_viewed_much) {
-            throw Error("ValidationError: Viewed too often.")
-        } if (!data.image_id) {
-            throw Error("ValidationError: No associated image.")
-        } if (!data.is_public_domain) {
-            // Recommended by ArtIC
-            throw Error("ValidationError: Not public domain.")
-        }
-    }
 
     /**
      * Gets the image URL of the artwork for display.
@@ -175,7 +135,8 @@
      * @returns {string} - Associated image ID
      */
     function getImageId(artJson) {
-        return artJson.data.image_id
+        // The search endpoint returns an array of data, so we need to unwrap
+        return artJson.data[0].image_id
     }
 
     /**
@@ -187,7 +148,7 @@
      *      doesn't have the necessary information
      * @returns {JSON} - JSON associated with artwork fetched
      */
-    async function requestArtAsync(artUrl) {
+    async function requestArtAsync() {
         /**
          * This is a helper function within a try/catch block, so we won't worry
          * about catching errors here.
@@ -196,8 +157,9 @@
          *
          * https://rapidapi.com/guides/request-headers-fetch
          */
+        const ART_URL = getSearchUrl()
 
-        let artResp = await fetch(artUrl, {
+        let artResp = await fetch(ART_URL, {
             headers: {
                 // Requested as courtesy
                 "AIC-User-Agent": USER_AGENT
@@ -205,7 +167,6 @@
         })
         artResp = checkStatus(artResp)        // Check status is valid
         const artData = await artResp.json()  // Convert to json
-        checkArtConditions(artData)           // Check ok to display
 
         return (artData)
     }
@@ -244,48 +205,58 @@
         return (imgData)
     }
 
-    /**
-     * Fetches art data of the associated artwork, and validates data.
-     *
-     * @param {string} id - ID associated with artwork to fetch
-     */
-    async function requestAsync(id) {
-        // Artworks endpoint
-        const ART_ENDPOINT = "artworks/"
-        const ART_URL = API_BASE_URL + ART_ENDPOINT + id + artFieldString
 
-        const MAX_FAILS = 10
+    /**
+     * Generates the url to fetch artwork info from. Uses the search endpoint to
+     * find a random piece of art which is 1. in the public domain; 2. not often
+     * viewed; 3. has an associated image.
+     *
+     * @returns {string} - URL to fetch artwork info from
+     */
+    function getSearchUrl() {
+        // Get random seed
+        let seed = Date.now()
+
+        // Search endpoint
+        const SEARCH_ENDPOINT = "search"
+
+        // Courtesy of nikhil trivedi at the Art Institute of Chicago
+        const PARAMS_STRING = [
+            "&query[function_score][query][bool][filter][][term][is_public_domain]=true",
+            "&query[function_score][query][bool][filter][][term][has_not_been_viewed_much]=true",
+            "&query[function_score][query][bool][filter][][exists][field]=image_id",
+            "&query[function_score][boost_mode]=replace",
+            "&query[function_score][random_score][field]=id",
+            "&resources=artworks&boost=false&limit=1"
+        ].join('')
+        const SEED_STRING = "&query[function_score][random_score][seed]="
+        const ART_URL = API_BASE_URL + SEARCH_ENDPOINT + artFieldString + PARAMS_STRING + SEED_STRING + seed
+
+        return ART_URL
+    }
+
+    /**
+     * Fetches art data of a random artwork, and validates data.
+     */
+    async function requestAsync() {
         /**
          * Written with help of Lecture 13 APOD example
-         *
-         * Since we don't want to try the same ID repeatedly, we completely
-         * restart the process and record the number of failures as a global
-         * variable.
          */
         try {
             // First, get artwork information
-            let artData = await requestArtAsync(ART_URL)
+            let artData = await requestArtAsync()
 
             // Next, get image information
             let imgData = await requestImgAsync(artData)
 
             // Update the page
             processData(artData, imgData)           // Process data and update page
-            numFails = 0                            // Reset error counter
             enableShuffleButton(true)               // Release shuffle button
 
         } catch (err) {
-            numFails += 1
-            if (numFails < MAX_FAILS) {
-                // Try up to MAX_FAILS times to find something better
-                getNewArt()
-            } else {
-                // Continuous failure; stop checking
-                processError(err)
-                numFails = 0
-                enableShuffleButton(true)
-            }
-
+            // Continuous failure; stop checking
+            processError(err)
+            enableShuffleButton(true)
         }
     }
 
@@ -499,7 +470,8 @@
     function processData(artJson, imgJson) {
         const WEB_BASE_URL = "https://www.artic.edu/artworks/"
 
-        let artData = artJson.data
+        // Since the search endpoint returns an array, we need to extract the data
+        let artData = artJson.data[0]
         let imgData = imgJson.data
 
         let link = qs(CONTAINER_SELECTOR + " > a")
@@ -545,11 +517,11 @@
         let header = gen("header")
 
         generateDisplayElement(header, "h2", "Please try again :(")
-        generateDisplayElement(header, "h3", "Looks like something went wrong repeatedly.")
+        generateDisplayElement(header, "h3", "Looks like something went wrong.")
 
         newAside.appendChild(header)
 
-        generateDisplayElement(newAside, "h4", "Most recent error:")
+        generateDisplayElement(newAside, "h4", "Error:")
         generateDisplayElement(newAside, "p", err.message)
 
         // Remove existing aside and add new one
