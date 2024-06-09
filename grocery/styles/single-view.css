@@ -1,0 +1,136 @@
+/* Styles for product/single-view page */
+
+main {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+button {
+  font-family: "Montserrat", sans-serif;
+  font-weight: bold;
+  color: #fafafa;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+/* Recipe Zone */
+#recipe {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  align-items: flex-start;
+  gap: 15px;
+}
+
+#recipe > img,
+#recipe-info {
+  min-width: 300px;
+  flex: 1;
+}
+
+#recipe-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+#recipe-info > *,
+#tags > * {
+  margin: 0px;
+}
+
+h2 {
+  font-size: 30pt;
+}
+
+/* Tag list */
+#tags {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+#tags ul {
+  display: flex;
+  justify-content: left;
+  gap: 10px;
+  padding: 0px;
+}
+
+/* Ingredient Table */
+table {
+  border-collapse: collapse;
+}
+
+td {
+  font-family: "Hind", sans-serif;
+}
+
+th {
+  font-family: "Montserrat", sans-serif;
+}
+
+th,
+td {
+  padding: 5px;
+  border: 1px solid #6fb3c3;
+}
+
+/* Cart Button */
+#cart-btn {
+  margin-left: auto;
+  margin-right: auto;
+  background-color: #076b82;
+}
+
+/* Reviews */
+#submit-btn {
+  background-color: #ff8133;
+}
+
+input {
+  border-style: solid;
+  border-radius: 3px;
+  border-width: 1px;
+}
+
+input:invalid {
+  background-color: #ffe4d6;
+}
+
+#review-area {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  gap: 10px;
+}
+
+h3 {
+  margin: 0px;
+  font-size: 20pt;
+}
+
+.review:nth-child(even) {
+  background-color: #ffe4d6;
+}
+.review:nth-child(odd) {
+  background-color: #fff2eb;
+}
+
+.review > * {
+  margin: 0px;
+}
+
+.review {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.review h4 {
+  margin-top: 0px;
+}

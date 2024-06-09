@@ -1,0 +1,134 @@
+/* Styles shared between all pages on the site */
+/* PALETTE:
+Cerulean  - #076b82
+Moonstone - #6fb3c3
+
+Pumpkin   - #ff8133
+Champagne - #ffe4d6
+Seashell  - $fff2eb
+
+Seasalt   - #fafafa
+Black     - #212529
+*/
+
+/* Text */
+h1,
+h2,
+h3,
+h4,
+nav ul {
+  font-family: "Montserrat", sans-serif;
+}
+
+p,
+dl,
+ul,
+label {
+  font-family: "Hind", sans-serif;
+}
+
+h1 {
+  font-size: 32pt;
+}
+
+h1,
+header a {
+  color: #076b82;
+  font-weight: bold;
+}
+
+h2,
+h3 {
+  color: #ff8133;
+}
+
+p,
+h4,
+dl,
+ul,
+label {
+  color: #212529;
+}
+
+/* Header */
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #076b82;
+  padding-bottom: 15px;
+  flex-wrap: wrap;
+}
+
+header * {
+  margin: 0px;
+}
+
+#title > a {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 15px;
+}
+
+#logo {
+  width: 64px;
+  height: 64px;
+}
+
+a:link {
+  text-decoration: none;
+}
+
+nav {
+  font-size: 18pt;
+}
+
+nav ul {
+  display: flex;
+  gap: 25px;
+  padding: 0px;
+}
+
+/* General */
+body {
+  background-color: #fafafa;
+  padding: 15px;
+}
+
+.icon {
+  width: 28px;
+  height: 28px;
+}
+
+img {
+  object-fit: contain;
+}
+
+main {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+li {
+  list-style-type: none;
+}
+
+button {
+  border: none;
+}
+
+/* Footer */
+footer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+footer * {
+  margin: 0px;
+}
+
+footer dd {
+  padding-left: 20px;
+}
