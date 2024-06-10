@@ -1,5 +1,6 @@
 /* Styles shared between all pages on the site */
 /* PALETTE:
+https://coolors.co/076b82-6fb3c3-ff8133-ffe4d6-fff2eb-fafafa-212529
 Cerulean  - #076b82
 Moonstone - #6fb3c3
 
@@ -16,7 +17,8 @@ h1,
 h2,
 h3,
 h4,
-nav ul {
+nav ul,
+button {
   font-family: "Montserrat", sans-serif;
 }
 
@@ -97,8 +99,12 @@ body {
 }
 
 .icon {
-  width: 28px;
-  height: 28px;
+  width: 32px;
+  height: 32px;
+}
+
+.small-icon {
+  width: 16px;
 }
 
 img {
@@ -131,4 +137,16 @@ footer * {
 
 footer dd {
   padding-left: 20px;
+}
+
+#cart-btn {
+  padding: 25px;
+  margin-right: 15px;
+  border-radius: 50px;
+  position: sticky;
+  bottom: 50px;
+  float: right;
+  background-color: #076b82;
+  /* Color | Width | Style */
+  border: #fafafa 5px solid;
 }

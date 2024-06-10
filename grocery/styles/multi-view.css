@@ -1,0 +1,58 @@
+/* Styles for main/multi-view page */
+
+/* Recipe grid list */
+#recipe-list {
+  display: grid;
+  /* https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_grid_layout/Relationship_of_grid_layout_with_other_layout_methods#a_flexible_number_of_tracks
+   * This basically tells the grid view to fit as many items in the column as
+   * possible; the items must be at minimum 300px wide and otherwise must take
+   * up the same fraction of space.
+   */
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 35px;
+}
+
+/* Individual recipe cards */
+.recipe-image {
+  width: 100%;
+  border-radius: 5px;
+}
+
+.recipe-footer {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+#filter-sort {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.recipe-info {
+  display: flex;
+  flex-direction: column;
+  border-radius: 5px;
+  gap: 10px;
+}
+
+.recipe-info p {
+  font-size: 16pt;
+}
+
+.recipe-info * {
+  margin: 0px;
+}
+
+.add-to-cart-btn {
+  background-color: #076b82;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.sort-btn {
+  padding: 10px;
+  border-radius: 5px;
+  font-weight: 600;
+}
