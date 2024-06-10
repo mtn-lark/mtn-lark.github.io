@@ -1,5 +1,30 @@
 /* Styles for main/multi-view page */
 
+/* Flex */
+#filter-sort,
+.recipe-info,
+.recipe-footer {
+  display: flex;
+}
+
+#filter-sort,
+.recipe-footer {
+  align-items: center;
+}
+
+#filter-sort,
+.recipe-info {
+  gap: 10px;
+}
+
+.recipe-footer {
+  justify-content: space-around;
+}
+
+.recipe-info {
+  flex-direction: column;
+}
+
 /* Recipe grid list */
 #recipe-list {
   display: grid;
@@ -18,25 +43,6 @@
   border-radius: 5px;
 }
 
-.recipe-footer {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-}
-
-#filter-sort {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
-
-.recipe-info {
-  display: flex;
-  flex-direction: column;
-  border-radius: 5px;
-  gap: 10px;
-}
-
 .recipe-info p {
   font-size: 16pt;
 }
@@ -47,12 +53,4 @@
 
 .add-to-cart-btn {
   background-color: #076b82;
-  padding: 10px;
-  border-radius: 5px;
-}
-
-.sort-btn {
-  padding: 10px;
-  border-radius: 5px;
-  font-weight: 600;
 }

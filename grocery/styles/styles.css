@@ -52,24 +52,29 @@ label {
   color: #212529;
 }
 
+/* Flex */
+header,
+#title > a,
+nav ul,
+footer {
+  display: flex;
+}
+
+header,
+#title > a {
+  align-items: center;
+}
+
 /* Header */
 header {
-  display: flex;
-  align-items: center;
   justify-content: space-between;
   border-bottom: 1px solid #076b82;
   padding-bottom: 15px;
   flex-wrap: wrap;
 }
 
-header * {
-  margin: 0px;
-}
-
 #title > a {
-  display: flex;
   justify-content: flex-start;
-  align-items: center;
   gap: 15px;
 }
 
@@ -87,7 +92,6 @@ nav {
 }
 
 nav ul {
-  display: flex;
   gap: 25px;
   padding: 0px;
 }
@@ -122,17 +126,22 @@ li {
 
 button {
   border: none;
+  border-radius: 10px;
+  padding: 10px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+/* The default margins on text elements is annoying */
+header *,
+footer * {
+  margin: 0px;
 }
 
 /* Footer */
 footer {
-  display: flex;
   flex-direction: column;
   gap: 10px;
-}
-
-footer * {
-  margin: 0px;
 }
 
 footer dd {
