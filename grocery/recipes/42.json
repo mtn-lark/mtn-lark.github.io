@@ -1,0 +1,9 @@
+{
+    "recipeid": 42,
+    "name": "Spaghetti",
+    "ingredients": [0, 2, 4, 5],
+    "keywords": [],
+    "description": "A simple spaghetti dish.",
+    "imgpath": "./imgs/spaghetti.jpg",
+    "imgalt": "a plate of spaghetti"
+}

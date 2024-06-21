@@ -1,0 +1,9 @@
+{
+    "recipeid": 41,
+    "name": "Grilled Cheese",
+    "ingredients": [1, 3],
+    "keywords": ["easy"],
+    "description": "An easy grilled cheese.",
+    "imgpath": "./imgs/grilledcheese.jpg",
+    "imgalt": "a grilled cheese"
+}

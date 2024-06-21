@@ -1,0 +1,9 @@
+{
+    "recipeid": 40,
+    "name": "Caprese Salad",
+    "ingredients": [0, 2, 3],
+    "keywords": ["gluten-free", "easy"],
+    "description": "A healthy caprese salad.",
+    "imgpath": "./imgs/caprese.jpg",
+    "imgalt": "a bowl of caprese salad"
+}

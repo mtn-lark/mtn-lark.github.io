@@ -1,0 +1,12 @@
+[
+    {
+        "reviewer": "John Doe",
+        "stars": 4,
+        "description": "This is a decent recipe."
+    },
+    {
+        "reviewer": "Jane Doe",
+        "stars": 2,
+        "description": "I didn't like this one."
+    }
+]

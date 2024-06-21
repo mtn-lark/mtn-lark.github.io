@@ -1,0 +1,9 @@
+{
+    "recipeid": 43,
+    "name": "Avocado Toast",
+    "ingredients": [1, 6],
+    "keywords": ["vegan", "easy"],
+    "description": "An easy breakfast of avocado toast.",
+    "imgpath": "./imgs/avocadotoast.jpg",
+    "imgalt": "a plate of avocado toast"
+}

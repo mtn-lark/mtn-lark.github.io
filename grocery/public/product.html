@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <!-- Scripts -->
+    <script src="scripts/utils.js"></script>
+    <script defer src="scripts/load-product.js"></script>
+
     <!-- Meta information -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -50,64 +54,7 @@
     </header>
 
     <main>
-      <div id="recipe">
-        <img
-          src="./imgs/spaghetti.jpg"
-          alt="Plate of spaghetti"
-          class="recipe-image"
-        />
-        <div id="recipe-info">
-          <h2>Spaghetti</h2>
-          <!-- Stars -->
-          <div class="star-box">
-            <img src="imgs/star.png" alt="" class="icon" />
-            <img src="imgs/star.png" alt="" class="icon" />
-            <img src="imgs/star.png" alt="" class="icon" />
-            <img src="imgs/star.png" alt="" class="icon" />
-          </div>
-          <!-- Tags -->
-          <div id="tags">
-            <h4>Tags:</h4>
-            <ul>
-              <li>Vegan</li>
-              <li>Gluten-Free</li>
-            </ul>
-          </div>
-          <!-- Description -->
-          <p>
-            This is a spaghetti Description. Lorem ipsum dolor sit amet,
-            consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-            labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-            exercitation ullamco laboris nisi ut aliquip ex ea commodo
-            consequat.
-          </p>
-          <!-- Ingredient table -->
-          <table>
-            <thead>
-              <tr>
-                <th scope="col">Ingredient</th>
-                <th scope="col">Price</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td scope="row">Pasta</td>
-                <td>$4</td>
-              </tr>
-              <tr>
-                <td scope="row">Tomato</td>
-                <td>$2</td>
-              </tr>
-            </tbody>
-            <tfoot>
-              <tr>
-                <th scope="row">Total</th>
-                <td>$6</td>
-              </tr>
-            </tfoot>
-          </table>
-        </div>
-      </div>
+      <div id="recipe"></div>
       <!-- Add to cart button -->
       <button id="add-to-cart-btn">Add to Cart</button>
 
@@ -132,28 +79,6 @@
           </div>
           <button id="submit-btn">Submit!</button>
         </form>
-
-        <div class="review">
-          <h4>John Doe</h4>
-          <div class="star-box">
-            <img src="imgs/star.png" alt="" class="icon" />
-            <img src="imgs/star.png" alt="" class="icon" />
-            <img src="imgs/star.png" alt="" class="icon" />
-            <img src="imgs/star.png" alt="" class="icon" />
-          </div>
-          <p>"Pretty good recipe"</p>
-        </div>
-
-        <div class="review">
-          <h4>Jane Doe</h4>
-          <div class="star-box">
-            <img src="imgs/star.png" alt="" class="icon" />
-            <img src="imgs/star.png" alt="" class="icon" />
-            <img src="imgs/star.png" alt="" class="icon" />
-            <img src="imgs/star.png" alt="" class="icon" />
-          </div>
-          <p>"This is a second review"</p>
-        </div>
       </div>
     </main>
     <button id="cart-btn">
@@ -162,6 +87,7 @@
 
     <footer>
       <p>Made by Lark Mendoza for CS 132 Final Project</p>
+      <p>Recipe photos via Unsplash.</p>
       <p>This website is a work in progress!</p>
       <dl>
         <dt>Image attributions:</dt>

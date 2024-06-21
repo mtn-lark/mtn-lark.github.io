@@ -1,0 +1,9 @@
+{
+    "recipeid": 43,
+    "name": "Tomato Soup",
+    "ingredients": [1, 2],
+    "keywords": ["vegan", "gluten-free", "easy"],
+    "description": "An easy tomato soup.",
+    "imgpath": "./imgs/tomatosoup.jpg",
+    "imgalt": "a bowl of tomato soup"
+}
